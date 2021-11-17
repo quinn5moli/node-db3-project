@@ -39,8 +39,16 @@ function findById(scheme_id) { // EXERCISE B
       ORDER BY st.step_number ASC;
 
     2B- When you have a grasp on the query go ahead and build it in Knex
-    making it parametric: instead of a literal `1` you should use `scheme_id`.
+    making it parametric: instead of a literal `1` you should use `scheme_id`. */
 
+    return db('schemes')
+      .leftJoin('steps', 'steps.scheme_id', 'schemes.scheme_id')
+      .select('schemes.scheme_name', 'steps.*')
+      .where('steps.scheme_id', scheme_id)
+      .orderBy('steps.step_number')
+
+
+    /*
     3B- Test in Postman and see that the resulting data does not look like a scheme,
     but more like an array of steps each including scheme information:
 
@@ -114,6 +122,12 @@ function findSteps(scheme_id) { // EXERCISE C
         }
       ]
   */
+
+      return db("schemes")
+      .leftJoin("steps", "steps.scheme_id", "schemes.scheme_id")
+      .select("schemes.scheme_name", "steps.*")
+      .where("steps.scheme_id", scheme_id)
+      .orderBy("steps.step_number")
 }
 
 function add(scheme) { // EXERCISE D
